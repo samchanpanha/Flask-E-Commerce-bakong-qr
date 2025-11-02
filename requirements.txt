@@ -1,0 +1,9 @@
+Flask
+Flask-Mail
+requests
+setuptools
+python-dotenv
+requests
+twine
+qrcode
+pillow

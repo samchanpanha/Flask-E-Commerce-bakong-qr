@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Payment - E-Commerce{% endblock %}
+
+{% block content %}
+<h1>Payment</h1>
+<p>Scan the QR code below to complete your payment.</p>
+<p>Total: {{ total }} KHR</p>
+<img src="{{ url_for('static', filename='qr.png') }}" alt="QR Code" />
+<div id="payment-status">Checking payment status...</div>
+<script>
+var totalAmount = "{{ total }}";
+function checkPayment() {
+    fetch('/check_payment')
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+            var statusDiv = document.getElementById('payment-status');
+            if (data.status === 'PAID') {
+                if (parseFloat(data.amount) >= totalAmount) {
+                    statusDiv.innerHTML = '<p style="color: green;">Payment successful! Redirecting...</p>';
+                    setTimeout(function() { window.location.href = '{{ url_for("payment_success") }}'; }, 2000);
+                } else {
+                    statusDiv.innerHTML = '<p style="color: orange;">Partial payment detected. Paid: ' + data.amount + ' KHR. Please pay the remaining amount.</p>';
+                }
+            } else {
+                statusDiv.innerHTML = '<p>Payment not yet received. Please scan the QR code.</p>';
+            }
+        })
+        .catch(function(error) {
+            console.error('Error checking payment:', error);
+            document.getElementById('payment-status').innerHTML = '<p>Error checking payment status.</p>';
+        });
+}
+
+setInterval(checkPayment, 5000); // Check every 5 seconds
+checkPayment(); // Initial check
+</script>
+{% endblock %}

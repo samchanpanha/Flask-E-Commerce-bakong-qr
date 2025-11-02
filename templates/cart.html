@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Cart - E-Commerce{% endblock %}
+
+{% block content %}
+<h1>Your Cart</h1>
+{% if cart_items %}
+<div class="row">
+    {% for item in cart_items %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text">{{ item.price }} KHR</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<p><strong>Total: {{ total }} KHR</strong></p>
+<a href="{{ url_for('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %}
+{% endblock %}
