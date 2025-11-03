@@ -69,8 +69,8 @@ def checkout():
             from bakong_khqr import KHQR
             khqr = KHQR(os.getenv("BAKONG_TOKEN"))
             qr_string = khqr.create_qr(
-                bank_account="sam_chanpanha2@aclb",  # Replace with actual Bakong account
-                merchant_name="E-Commerce Store",
+                bank_account="sam_chanpanha@hfcb",  # Replace with actual Bakong account
+                merchant_name="CHAN PANHA SAM",
                 merchant_city="Phnom Penh",
                 amount=total,
                 currency="KHR",
@@ -120,10 +120,10 @@ def payment_success():
     # mail.send(msg)
 
     # # Send Telegram notification
-    # message = f"New order: Total {session.get('total', 0)} KHR from {session.get('name')} ({session.get('email')})"
-    # url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    # data = {'chat_id': TELEGRAM_CHAT_ID, 'text': message}
-    # requests.post(url, data=data)
+    message = f"New order: Total {session.get('total', 0)} KHR from {session.get('name')} ({session.get('email')})"
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    data = {'chat_id': TELEGRAM_CHAT_ID, 'text': message}
+    requests.post(url, data=data)
 
     session.pop('cart', None)
     session.pop('qr_image', None)
